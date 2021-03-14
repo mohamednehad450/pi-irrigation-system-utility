@@ -1,14 +1,13 @@
 import atexit
-import json
 
+from config import load_config
 from utils import exit_handler
 
 atexit.register(exit_handler)
 
 
 def main():
-    configFile = open('config.json', "r")
-    config = json.load(configFile)
+    config = load_config('config.json')
     print(config)
 
 
