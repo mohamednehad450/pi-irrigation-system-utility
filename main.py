@@ -2,7 +2,7 @@ import atexit
 import time
 
 from config import load_config
-from utils import exit_handler, GPIO_Initialize, run_zone
+from utils import exit_handler, GPIO_Initialize, run_zone, log_with_timestamp
 
 atexit.register(exit_handler)
 
@@ -17,8 +17,11 @@ def main():
     zones = config.get('Zones')
     timeout = config.get('timeout')
 
+    logfile = config.get('logFile', 'log.txt')
+    def logger(m): return log_with_timestamp(m, logfile)
+
     for zone in zones:
-        run_zone(zone)
+        run_zone(zone, logger)
         time.sleep(timeout)
 
 
