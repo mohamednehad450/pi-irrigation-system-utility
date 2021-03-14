@@ -1,4 +1,5 @@
 import time
+from functools import reduce
 
 try:
     import RPi.GPIO as GPIO
@@ -38,3 +39,55 @@ def turn_off(pin):
 
 def exit_handler():
     GPIO.cleanup()
+
+
+def get_min_duration(pins):
+    if len(pins) > 0:
+        return reduce(lambda acc, pin: min(acc, pin.get('duration')), pins, pins[0].get('duration'))
+    else:
+        return 0
+
+
+def run_zone(zone):
+
+    name = zone.get('name')
+    pins = zone.get('pins')
+    pumpPin = zone.get('pumpPin')
+    pumpInitTime = zone.get('pumpInitTime')
+
+    # turning on every pin
+    for pin in pins:
+        turn_on(pin.get("pin"))
+
+    # turning on the pump
+    if pumpPin:
+        time.sleep(pumpInitTime)
+        turn_on(pumpPin)
+
+    minDuration = get_min_duration(pins)
+    while(minDuration > 0):
+
+        time.sleep(minDuration*60)
+
+        # Subtracting minDuration from all pins
+        pins = list(
+            map(lambda pin: {**pin, "duration": pin.get('duration') - minDuration}, pins))
+
+        # Filtering finished pins
+        # filteredPins = list(filter(lambda pin: pin.get('duration') > 0, pins))
+        filteredPins = [pin for pin in pins if pin.get('duration') > 0]
+
+        # Turning off the pump if all pins finished
+        if len(filteredPins) == 0 and pumpPin:
+            turn_off(pumpPin)
+            time.sleep(pumpInitTime)
+
+        # turning off done pins
+        for pin in pins:
+            if pin.get('duration') <= 0:
+                turn_off(pin.get("pin"))
+
+        pins = filteredPins
+
+        # set minDuration
+        minDuration = get_min_duration(pins)
