@@ -67,9 +67,9 @@ def run_zone(zone, log):
         log(f'Zone "{name}": Pump will start on pin {pumpPin}.')
         turn_on(pumpPin)
 
-    minDuration = get_min_duration(pins)
-    while(minDuration > 0):
+    while len(pins) > 0:
 
+        minDuration = get_min_duration(pins)
         time.sleep(minDuration*60)
 
         # Subtracting minDuration from all pins
