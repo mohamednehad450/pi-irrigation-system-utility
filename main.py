@@ -2,27 +2,18 @@ import atexit
 import time
 
 from config import load_config
-from utils import exit_handler, GPIO_Initialize, run_zone, log_with_timestamp
+from utils import log_with_timestamp, run_config
 
-atexit.register(exit_handler)
+
+logfile = 'log.txt'
+def logger(m): log_with_timestamp(m, logfile)
 
 
 def main():
 
-    config = load_config('config.json')
+    config = load_config('config.json', 'schema.json')
 
-    gpio = config.get('GPIOPins')
-    GPIO_Initialize(gpio)
-
-    zones = config.get('Zones')
-    timeout = config.get('timeout')
-
-    logfile = config.get('logFile', 'log.txt')
-    def logger(m): return log_with_timestamp(m, logfile)
-
-    for zone in zones:
-        run_zone(zone, logger)
-        time.sleep(timeout)
+    run_config(config, logger)
 
 
 if __name__ == "__main__":
