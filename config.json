@@ -1,5 +1,7 @@
 {
-    "GPIOPins": [
+    "configId": 1,
+    "name": "Summer Timer",
+    "gpioPins": [
         3,
         5,
         7,
@@ -14,56 +16,65 @@
         19,
         21,
         22,
-        24
+        24,
+        23
     ],
-    "Zones": [
+    "timeout": "PT5S",
+    "zones": [
         {
             "name": "First Floor - الدور الأول",
-            "pins": [
+            "sections": [
                 {
+                    "name": "Main Section",
                     "pin": 24,
-                    "duration": 20
+                    "duration": "PT15M"
                 }
-            ],
-            "pumpPin": null,
-            "pumpInitTime": null
+            ]
         },
         {
             "name": "Second Floor 1 - الدور الثاني 1",
-            "pins": [
+            "sections": [
                 {
+                    "name": "Section 1",
                     "pin": 16,
-                    "duration": 20
+                    "duration": "PT20M"
                 },
                 {
+                    "name": "Section 2",
                     "pin": 19,
-                    "duration": 20
+                    "duration": "PT20M"
                 },
                 {
+                    "name": "Section 3",
                     "pin": 18,
-                    "duration": 20
+                    "duration": "PT20M"
                 }
             ],
-            "pumpPin": 15,
-            "pumpInitTime": 15
+            "pump": {
+                "name": "Main Pump",
+                "pin": 15,
+                "initTime": "PT15S"
+            }
         },
         {
             "name": "Second Floor 2 - الدور الثاني 2",
-            "pins": [
+            "sections": [
                 {
+                    "name": "Section 1",
                     "pin": 22,
-                    "duration": 15
+                    "duration": "PT20M"
                 },
                 {
+                    "name": "Section 2",
                     "pin": 21,
-                    "duration": 1
+                    "duration": "PT1M"
                 }
             ],
-            "pumpPin": 15,
-            "pumpInitTime": 15
+            "pump": {
+                "name": "Main Pump",
+                "pin": 15,
+                "initTime": "PT15S"
+            }
         }
-    ],
-    "timeout": 5,
-    "logFile": "ir-logs.txt",
-    "errorFile": "ir-errors.txt"
+    ]
 }
