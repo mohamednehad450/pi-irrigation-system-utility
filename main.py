@@ -1,19 +1,19 @@
 import atexit
-import time
 
-from config import load_config
-from utils import log_with_timestamp, run_config
+from config import load_config, run_config
+from utils import log_with_timestamp, exit_handler
 
-
-logfile = 'log.txt'
-def logger(m): log_with_timestamp(m, logfile)
+atexit.register(exit_handler)
 
 
 def main():
 
-    config = load_config('config.json', 'schema.json')
+    logfile = 'log.txt'
+    def logger(m): log_with_timestamp(m, logfile)
 
-    run_config(config, logger)
+    run_config(
+        load_config('config.json', 'schema.json'),
+        logger)
 
 
 if __name__ == "__main__":
