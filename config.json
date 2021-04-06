@@ -1,6 +1,6 @@
 {
     "configId": 1,
-    "name": "Summer Timer",
+    "name": "Timer",
     "gpioPins": [
         3,
         5,
@@ -62,7 +62,7 @@
                 {
                     "name": "Section 1",
                     "pin": 22,
-                    "duration": "PT20M"
+                    "duration": "PT15M"
                 },
                 {
                     "name": "Section 2",
